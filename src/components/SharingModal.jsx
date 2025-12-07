@@ -156,7 +156,7 @@ const SharingModal = ({ file, onClose }) => {
                     )}
                 </div>
 
-                {message && <p style={{ marginTop: '15px', color: loading ? '#007bff' : (message.includes('failed') ? 'red' : 'green') }}>{message}</p>}
+                {message && <p style={{ marginTop: '15px', color: loading ? '#3fd465' : (message.includes('failed') ? 'red' : 'green') }}>{message}</p>}
             </div>
         </div>
     );

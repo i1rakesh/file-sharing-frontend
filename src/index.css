@@ -19,7 +19,7 @@ button {
     margin: 5px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #3fd465;
     color: white;
     transition: background-color 0.3s;
 }
@@ -41,7 +41,7 @@ input[type="password"] {
 }
 
 h2 {
-    color: #007bff;
+    color: #3fd465;
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
     margin-bottom: 20px;

@@ -126,7 +126,7 @@ const FileList = ({ files, onShare, onFileDeleted, onAuditLog }) => {
                                 <td style={baseCellStyle} title={file.fileType.split('/')[1]?.toUpperCase()} >{truncateFilename(file.fileType.split('/')[1]?.toUpperCase(), 15) || 'FILE'}</td>
                                 <td style={baseCellStyle}>{formatFileSize(file.fileSize)}</td>
                                 
-                                <td style={{ ...baseCellStyle, fontWeight: isOwner ? '600' : '400', color: isOwner ? '#007bff' : '#333' }}>
+                                <td style={{ ...baseCellStyle, fontWeight: isOwner ? '600' : '400', color: isOwner ? '#3fd465' : '#333' }}>
                                     {isOwner ? 'You (Owner)' : 'Shared'}
                                 </td>
                                 
@@ -135,7 +135,7 @@ const FileList = ({ files, onShare, onFileDeleted, onAuditLog }) => {
                                 <td style={baseCellStyle}>
                                     <button 
                                         onClick={() => handleDownload(file)} 
-                                        style={{ ...actionButtonStyle, backgroundColor: '#007bff' }}
+                                        style={{ ...actionButtonStyle, backgroundColor: '#3fd465' }}
                                     >
                                         Download
                                     </button>

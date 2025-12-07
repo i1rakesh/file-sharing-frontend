@@ -114,7 +114,7 @@ const Uploader = ({ onUploadSuccess }) => {
     // --- STYLING ---
     const dropzoneStyle = {
         padding: '20px',
-        border: `2px dashed ${isDragActive ? '#007bff' : '#ccc'}`,
+        border: `2px dashed ${isDragActive ? '#3fd465' : '#ccc'}`,
         borderRadius: '8px',
         textAlign: 'center',
         cursor: 'pointer',
@@ -133,7 +133,7 @@ const Uploader = ({ onUploadSuccess }) => {
 
     const chipStyle = {
         padding: '8px 12px',
-        backgroundColor: '#007bff',
+        backgroundColor: '#3fd465',
         color: 'white',
         borderRadius: '16px',
         display: 'flex',
