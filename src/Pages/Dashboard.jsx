@@ -39,9 +39,7 @@ const Dashboard = ({ isSharing}) => {
     
 
 useEffect(() => {
-
     if (isSharing && token) {
-
         if (!user) {
             alert("Authentication is required to access shared files. Please log in.");
             sessionStorage.setItem('pending_share_link', location.pathname); 
@@ -52,15 +50,19 @@ useEffect(() => {
         const userToken = localStorage.getItem('token');
         const encodedToken = encodeURIComponent(userToken);
         
-
-        const accessUrl = `http://localhost:5000/api/files/access/${token}?access_token=${encodedToken}`;
+        // ❌ OLD INCORRECT LINE:
+        // const accessUrl = `http://localhost:5000/api/files/access/${token}?access_token=${encodedToken}`;
+        
+        // ✅ NEW CORRECTED LINE: Use the base URL from the axios client
+        const baseUrl = apiClient.defaults.baseURL; // e.g., https://your-backend-api.onrender.com/api
+        
+        const accessUrl = `${baseUrl}/files/access/${token}?access_token=${encodedToken}`;
         
         const redirectTimer = setTimeout(() => {
-             window.location.href = accessUrl;
+            window.location.href = accessUrl;
         }, 100); 
 
         return () => clearTimeout(redirectTimer); 
-
     }
 }, [isSharing, token, user, navigate, location.pathname]);
 
