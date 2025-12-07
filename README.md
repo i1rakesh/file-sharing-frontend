@@ -10,6 +10,10 @@ This application relies on a free-tier backend service (Render), which has a sle
 
 -----
 
+| **Backend API** | [Backend Repository](https://github.com/i1rakesh/file-sharing-backend/tree/main) |
+
+-----
+
 ## Tech Stack & Key Components
 
 | Component | Technology | Description |
