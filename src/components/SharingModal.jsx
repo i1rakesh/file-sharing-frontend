@@ -7,6 +7,7 @@ const SharingModal = ({ file, onClose }) => {
     const [shareLink, setShareLink] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [expiryHours, setExpiryHours] = useState(24);
 
     const handleShareWithUsers = async () => {
         const emailsArray = targetEmails.split(',').map(email => email.trim()).filter(Boolean);
@@ -21,31 +22,33 @@ const SharingModal = ({ file, onClose }) => {
         try {
             const res = await apiClient.post(`/files/${file._id}/share/user`, {
                 targetEmails: emailsArray,
+                expiresInHours: expiryHours, // 👈 PASS EXPIRY
             });
             
             setMessage(res.data.message);
             setTargetEmails(''); 
         } catch (error) {
-            setMessage('Sharing failed: ' + (error.response?.data?.message || 'Server error.'));
+            // ...
         } finally {
             setLoading(false);
         }
     };
 
     const handleGenerateLink = async () => {
-        setLoading(true);
-        setMessage('Generating link...');
-        setShareLink('');
-
+        // ...
         try {
-            const res = await apiClient.post(`/files/${file._id}/share/link`);
+            const res = await apiClient.post(`/files/${file._id}/share/link`, {
+                expiresInHours: expiryHours, // 👈 PASS EXPIRY
+            });
             
             const fullLink = `${window.location.origin}${res.data.shareLink}`;
+            const expiryDate = new Date(res.data.expiresAt).toLocaleString();
 
             setShareLink(fullLink);
-            setMessage('Share link generated successfully!');
+            setMessage(`Share link generated! Expires on ${expiryDate}.`);
+            
         } catch (error) {
-            setMessage('Link generation failed: ' + (error.response?.data?.message || 'Server error.'));
+            // ...
         } finally {
             setLoading(false);
         }
@@ -94,7 +97,6 @@ const SharingModal = ({ file, onClose }) => {
                     Share File: {file.filename}
                 </h3>
                 
-                {/* Close Button */}
                 <button 
                     onClick={onClose} 
                     style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: 'transparent', color: '#333', border: 'none' }}
@@ -102,7 +104,19 @@ const SharingModal = ({ file, onClose }) => {
                     &times;
                 </button>
 
-                {/* Sharing with Specific Users */}
+                <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '4px', backgroundColor: '#f5f5f5' }}>
+                    <label style={{ marginRight: '10px', fontWeight: 'bold' }}>Access Expiry (Hours):</label>
+                    <input 
+                        type="number"
+                        min="1"
+                        value={expiryHours}
+                        onChange={(e) => setExpiryHours(e.target.value)}
+                        style={{ width: '80px', padding: '5px', display: 'inline', margin: '0 10px 0 0' }}
+                        disabled={loading}
+                    />
+                    <p style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>Sets the expiration time for both user shares and generated links.</p>
+                </div>
+
                 <div style={inputGroupStyle}>
                     <h4>1. Share with Specific Users</h4>
                     <p style={{ fontSize: '12px', color: '#666' }}>Enter emails, separated by commas.</p>
@@ -121,7 +135,6 @@ const SharingModal = ({ file, onClose }) => {
 
                 <hr style={{ margin: '20px 0', border: 'none', borderTop: '1px dotted #ccc' }} />
 
-                {/* Sharing via Link */}
                 <div style={inputGroupStyle}>
                     <h4>2. Share via Link (Requires User Login)</h4>
                     <button onClick={handleGenerateLink} disabled={loading}>
